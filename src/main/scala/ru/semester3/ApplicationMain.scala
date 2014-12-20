@@ -32,7 +32,7 @@ object ApplicationMain extends App {
   val end = Await.result(future, timeout.duration).asInstanceOf[GameActor.End]
 
   val endTime = System.nanoTime()
-  println("Duration " + (endTime - beginTime) / 1000000000.0)
+  println("duration " + (endTime - beginTime) / 1000000000.0 + " sec")
 
   IOUtils.saveToFile(new File(destPath), end.field)
 
