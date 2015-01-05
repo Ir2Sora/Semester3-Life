@@ -92,7 +92,7 @@ class GameActor extends Actor with ActorLogging {
 
   def createActor(index: Int, addresses: Option[Array[Address]]) = {
     addresses match {
-      case Some(addresses) => context.actorOf(ComputeActor.props(index).withDeploy(Deploy(scope = RemoteScope(addresses(index % 2)))), "ComputeActor-n" + index)
+      case Some(addresses) => context.actorOf(ComputeActor.props(index).withDeploy(Deploy(scope = RemoteScope(addresses(index % addresses.length)))), "ComputeActor-n" + index)
       case None => context.actorOf(ComputeActor.props(index), "ComputeActor-n" + index)
     }
   }
