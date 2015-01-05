@@ -3,7 +3,7 @@ package ru.semester3
 import akka.actor.ActorRef
 import ru.semester3.Corner._
 
-class Topology(_width: Int, _height: Int, actors: Array[ActorRef]) {
+class Topology(_width: Int, _height: Int, actors: Array[ActorRef]) extends Serializable {
 
   def width = _width
   def height = _height

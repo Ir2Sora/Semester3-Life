@@ -2,7 +2,7 @@ package ru.semester3
 
 import ru.semester3.Corner._
 
-class Field(_width: Int, _height: Int, _cells: Array[Boolean]) {
+class Field(_width: Int, _height: Int, _cells: Array[Boolean]) extends Serializable {
 
   def width = _width
 

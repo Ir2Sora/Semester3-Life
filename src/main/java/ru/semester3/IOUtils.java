@@ -1,6 +1,12 @@
 package ru.semester3;
 
+import akka.actor.Address;
+
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
 public class IOUtils {
     public static Field loadFromFile(File source) throws IOException {
@@ -71,5 +77,19 @@ public class IOUtils {
         }
 
         return dest;
+    }
+
+    public static Address[] getAddresses(String location) throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get(location), StandardCharsets.UTF_8);
+
+        Address[] result = new Address[lines.size()];
+
+        for (int i = 0; i < lines.size(); i++) {
+            String[] parts = lines.get(i).split(" ");
+            Address a = new Address("akka.tcp", parts[0], parts[1], Integer.parseInt(parts[2]));
+            result[i] = a;
+        }
+
+        return result;
     }
 }

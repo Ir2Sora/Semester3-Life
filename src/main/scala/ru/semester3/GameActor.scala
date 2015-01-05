@@ -1,6 +1,7 @@
 package ru.semester3
 
-import akka.actor.{ActorRef, Props, ActorLogging, Actor}
+import akka.actor._
+import akka.remote.RemoteScope
 import ru.semester3.ComputeActor.Computed
 
 class GameActor extends Actor with ActorLogging {
@@ -15,7 +16,7 @@ class GameActor extends Actor with ActorLogging {
   var topology: Topology = _
 
   def receive = {
-    case Start(field, iterations) =>
+    case Start(field, iterations, addresses) =>
       println("width " + field.width)
       println("height " + field.height)
       println("cells " + field.cells.length)
@@ -27,7 +28,7 @@ class GameActor extends Actor with ActorLogging {
       val (topologyWidth, topologyHeight) = computeTopologyBounds(field.width, field.height)
 
       val actors = Range(0, topologyWidth * topologyHeight)
-        .map(i => context.actorOf(ComputeActor.props(i), "ComputeActor-n" + i)).toArray
+        .map(i => createActor(i, addresses)).toArray
 
       topology = new Topology(topologyWidth, topologyHeight, actors)
 
@@ -88,12 +89,19 @@ class GameActor extends Actor with ActorLogging {
       }
     }
   }
+
+  def createActor(index: Int, addresses: Option[Array[Address]]) = {
+    addresses match {
+      case Some(addresses) => context.actorOf(ComputeActor.props(index).withDeploy(Deploy(scope = RemoteScope(addresses(index % 2)))), "ComputeActor-n" + index)
+      case None => context.actorOf(ComputeActor.props(index), "ComputeActor-n" + index)
+    }
+  }
 }
 
 object GameActor {
   val props = Props[GameActor]
 
-  case class Start(field: Field, iteration: Int)
+  case class Start(field: Field, iteration: Int, addreses: Option[Array[Address]])
   case class End(field: Field)
 }
 
