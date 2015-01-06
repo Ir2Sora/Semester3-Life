@@ -1,13 +1,20 @@
 Semester3-Life
 =======================
 
+## How to run (on remote machine)
+```sbt "remote <system-name> <host-name> <port>"```
+
+- system-name - Название akka-системы, которая будет запущена на этом PC
+- host-name - Хост на котором будет запущена akka-системы
+- port - Порт на котором будет запущена akka-системы
+
 ## How to run (on local machine)
 ```sbt "run <src-data> <output> <number-of-iterations> <addresses-data>"```
 
-src-data - Путь к файлу, содержащий исходные данные
-output - Путь по которому будут сохранены результаты
-number-of-iterations - Количество итераций игры
-addresses-data - Путь к файлу который содержит информацию об адресах удаленных машин в следующем формате:
+- src-data - Путь к файлу, содержащий исходные данные
+- output - Путь по которому будут сохранены результаты
+- number-of-iterations - Количество итераций игры
+- addresses-data - Путь к файлу который содержит информацию об адресах удаленных машин в следующем формате:
 ```
 <system-name> <host-name> <port>
 <system-name> <host-name> <port>
@@ -28,7 +35,3 @@ cells 100000000
 iterations 5
 duration 6.316005889 sec
 ```
-
-## How to run (on remote machine)
-```sbt "remote <system-name> <host-name> <port>"```
-
